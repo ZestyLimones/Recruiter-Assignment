@@ -8,7 +8,19 @@ function formatPath(path) {
     return pathItem;
 }
 
-function getRepos(userHandle,) {
+function displayResults(responseJson) {
+    console.log(responseJson);
+    $('#results-list').empty();
+    for (let i = 0; i < responseJson.length; i++){
+      $('#results-list').append(
+        `<li><h3>${responseJson[i].name}</h3>
+            <p><a href="${responseJson[i].html_url}">Link</a></p>
+        </li>`
+      )};
+    $('#results').removeClass('hidden');
+    };
+
+function getRepos(userHandle) {
     const path = {
         userHandle,
     }
@@ -25,7 +37,7 @@ function getRepos(userHandle,) {
         }
         throw new Error(response.statusText);
       })
-      .then(responseJson => console.log(responseJson))
+      .then(responseJson => displayResults(responseJson))
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
       });
